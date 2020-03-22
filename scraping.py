@@ -3,35 +3,43 @@ from splinter import Browser
 from bs4 import BeautifulSoup
 import pandas as pd # to use .read.html() method
 import datetime as dt 
+#import traceback # for line 110 to find specific error
 
 # Update the data stored in Mongo each time it's run
 def scrape_all():
     
     # Initiate headless driver for deployment
-    browser = Browser("chrome", executable_path="chromedriver", headless=True)
-    
+    executable_path = {'executable_path': 'chromedriver'}
+    browser = Browser('chrome', **executable_path)
+    # Use the following code to avoid auto browsing at chrome
+    #browser = Browser("chrome", executable_path="chromedriver", headless=True)
+
     # Set our news title and paragraph variables
     news_title, news_paragraph = mars_news(browser)
     
     # Run all scraping functions and store results in dictionary
     data = {
-            "news_title": news_title,
-            "news_paragraph": news_paragraph,
-            "featured_image": featured_image(browser),
-            "facts": mars_facts(),
-            "last_modified": dt.datetime.now()}
-    
+          "news_title": news_title,
+          "news_paragraph": news_paragraph,
+          "featured_image": featured_image(browser),
+          "facts": mars_facts(),
+          "last_modified": dt.datetime.now()}
+
+    # end auto browsering
+    #browser.quit()
+    return data
+
 # Set the executable path and initialize the chrome browser in splinter
 #executable_path = {'executable_path': 'chromedriver'} 
 #browser = Browser('chrome', **executable_path)
 
 def mars_news(browser):
 
-    # Visit the Mars NASA news site
+    # Visit the mars nasa news site
     url = 'https://mars.nasa.gov/news/'
     browser.visit(url)
     # Optional delay for loading the page
-    browser.is_element_present_by_css('ul.item_list li.slide', wait_time=1)
+    browser.is_element_present_by_css("ul.item_list li.slide", wait_time=1)
 
     # Set up HTML parser
     html = browser.html
@@ -42,13 +50,13 @@ def mars_news(browser):
         slide_elem = news_soup.select_one('ul.item_list li.slide')
 
         # Assign the title n summary text to variables we'll reference later
-        slide_elem.find("div", class_='content_title')
+        #slide_elem.find("div", class_='content_title')
 
         # Use the parent element to find the first 'a' tag and save it as 'news_title'
         news_title = slide_elem.find("div", class_='content_title').get_text()
 
         # Use the parent element to find the paragraph text
-        news_p = slide_elem.find('div', class_='article_teaser_body').get_text()
+        news_p = slide_elem.find("div", class_="article_teaser_body").get_text()
     
     except AttributeError:
         
@@ -95,24 +103,27 @@ def featured_image(browser):
 def mars_facts():
     
     try:
-        # Scrape the first table [0]
-        df = pd.read_html('http://space-facts.com/mars/')[0]
+        # Scrape the first table [1]
+        df = pd.read_html('http://space-facts.com/mars/')[1]
 
     except BaseException:
         return None
+    #except BaseException as e:
+        #return print(str(e))
+        #traceback.print_exc()
     
     # Assign columns and set index of dataframe
-    df.columns = ['Description', 'Mars', 'Earth']
-    df.set_index('description', inplace=True)
+    df.columns=['Description', 'Mars', 'Earth']
+    #df.columns=['Description', 'Mars']
+    df.set_index('Description', inplace=True)
 
     # convert df to html
     return df.to_html()
 
 # end auto browsering
-browser.quit()
-
-
+#browser.quit()
 # Tells Flask that our script is complete and ready for action
 if __name__ == "__main__":
     # If running as script, print scraped data
     print(scrape_all())
+
