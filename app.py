@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 # Use flask_pymongo to set up mongo connection
 app.config["MONGO_URI"] = "mongodb://localhost:27017/mars_app"
-mongo = Pymongo(app)
+mongo = PyMongo(app)
 
 # Homepage
 @app.route("/")
@@ -15,7 +15,7 @@ def index():
     # Uses PyMongo to find “mars” collection in our database, which created when we converted our Jupyter scraping code to Python Script
     mars = mongo.db.mars.find_one()
     # Tells Flask to return an HTML template using an index.html file
-    return render_template("index.html", mars=mars) # mars=mars tells Python to use the “mars” collection in MongoDB
+    return render_template("index.html", mars=mars) # mars=mars tells Python to use the “mars” collection in MongoDB for mars in index.html
 
 # Scrape route
 @app.route("/scrape")
@@ -28,3 +28,7 @@ def scrape():
     mars.update({}, mars_data, upsert=True)
     # Add a message to let us know that the scraping was successful
     return "Scraping Successful!"
+
+# The final bit of code we need for Flask is to tell it to run
+if __name__ == "__main__":
+   app.run()
