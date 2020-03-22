@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!--10.6.1: Customize the Appearance-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Mission to Mars</title>
+    <!--a link for Bootstrap’s stylesheet, access all Bootstrap’s components without downloading-->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      />
+  </head>
+  <body>
+    <!-- a container is required for the grid system to work -->
+    <div class="container">
+      <!-- Add Jumbotron to Header -->
+      <div class="jumbotron text-center">
+        <h1>Mission to Mars</h1>
+        <!-- Add a button to activate scraping script -->
+        <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data</a></p>
+      </div>
+
+      <!-- Add section for Mars News -->
+      <div class="row" id="mars-news">
+        <div class="col-md-12">
+          <div class="media">
+            <div class="media-body">
+              <!--<h2>Latest Mars News: </h2>-->
+              <div class="alert alert-success" role="alert">
+                <h2 class="alert-heading">Latest Mars News!</h2>
+                <hr>
+                <h4 class="media-heading">{{ mars.news_title }}</h4>
+                <p>{{ mars.news_paragraph }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Section for Featured Image and Facts table -->
+      <div class="row" id="mars-featured-image">
+        <div class="col-md-8">
+          <h2>Featured Mars Image: </h2>
+          <!-- if images is False/None/non-existent, then default to error message -->
+          <img
+            src="{{mars.featured_image | default('static/images/error.png', true) }}"
+            class="img-responsive"
+            alt="Responsive image"
+          />
+        </div>
+        <div class="col-md-4">
+          <!-- Mars Facts -->
+          <div class="row" id="mars-facts">
+            <div class="col-md-12">
+              <h2>Mars Facts: </h2>
+              {{ mars.facts | safe }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Add Challenge 10 Mars Images-->
+      <div class="row" id="mars-imgs">
+        <div class="col-md-12">
+          <h2>Mars Hemispheres: </h2>
+        </div>
+        <div class="col-md-3">
+        <!-- Challenge Mars Img1-->
+          <span class="badge badge-primary">Cerberus Hemisphere Enhanced</span>
+          <img src="https://astropedia.astrogeology.usgs.gov/download/Mars/Viking/cerberus_enhanced.tif/full.jpg" class="img-responsive" alt="Responsive image">
+        </div>
+        <div class="col-md-3">
+        <!-- Challenge Mars Img2-->
+          <span class="badge badge-secondary">Schiaparelli Hemisphere Enhanced</span>
+          <img src="https://astropedia.astrogeology.usgs.gov/download/Mars/Viking/schiaparelli_enhanced.tif/full.jpg" class="img-responsive" alt="Responsive image">
+        </div>
+        <div class="col-md-3">
+        <!-- Challenge Mars Img3-->
+          <span class="badge badge-success">Syrtis Major Hemisphere Enhanced</span>
+          <img src="https://astropedia.astrogeology.usgs.gov/download/Mars/Viking/syrtis_major_enhanced.tif/full.jpg" class="img-responsive" alt="Responsive image">
+        </div>
+        <div class="col-md-3">
+        <!-- Challenge Mars Img4-->
+          <!--<h4>Valles Marineris Hemisphere Enhanced</h4>-->
+          <span class="badge badge-danger">Valles Marineris Hemisphere Enhanced</span>
+          <img src="https://astropedia.astrogeology.usgs.gov/download/Mars/Viking/valles_marineris_enhanced.tif/full.jpg" class="img-responsive" alt="Responsive image">
+        </div>
+      </div>
+      <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Tooltip on top">
+        Tooltip on top
+      </button>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js/bootstrap.min.js"></script>
+  </body>
+</html>
