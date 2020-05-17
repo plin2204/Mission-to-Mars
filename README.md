@@ -12,6 +12,6 @@ For data pretaining to the Mission to Mars, build an app to scrape websites and 
 Additional scraping to pull high-resolution images, updating **Mongo** to include the new data, and altering the web app to accommodate these images. The web includes additional three Bootstrap 3 components: 1. *Alerts*, 2. *Badges*, and 3. *Tooltips*.
 
 ---
-The codes are in `scraping.py`, `app.py`, `Mission_to_Mars.ipynb`, and `index.html`.
+The codes are in [`scraping.py`](https://github.com/plin2204/Mission-to-Mars/blob/master/scraping.py), [`app.py`](https://github.com/plin2204/Mission-to-Mars/blob/master/app.py), [`Mission_to_Mars.ipynb`](https://github.com/plin2204/Mission-to-Mars/blob/master/Mission_to_Mars.ipynb), and [`index.html`](https://github.com/plin2204/Mission-to-Mars/blob/master/index.html).
 
 ![](web.PNG)
